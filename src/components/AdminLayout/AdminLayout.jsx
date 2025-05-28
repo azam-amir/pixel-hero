@@ -3,24 +3,30 @@ import HUD from "../HUD/HUD";
 import Player from "../Player/Player";
 import Coin from "../Coin/Coin";
 import { useGameStore } from "../../stores/useGameStore";
+import GameLoop from "../Gameloop/Gameloop";
 
 const GameLayout = memo(() => {
-  const { coins } = useGameStore();
+  const { coins, playerX } = useGameStore();
 
   return (
-    <div className="relative w-[800px] h-[500px] !mx-[10px] bg-green-200 border-4 border-black overflow-hidden rounded-xl shadow-lg">
+    <div className="relative w-[800px] h-[500px] !mx-[10px] border-4 border-black overflow-hidden rounded-xl shadow-lg">
+      {/* Static background */}
+      <div className="absolute inset-0 bg-blue-300">
+        {/* Ground */}
+        <div className="absolute bottom-0 left-0 w-full h-24 bg-green-600" />
+      </div>
+
       <HUD />
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-green-600" />
+      <GameLoop />
 
       {/* Player */}
       <Player />
 
       {/* Coins */}
-      {coins.map((coin, i) => (
-        <Coin key={i} x={coin.x} />
+      {coins.map((coin) => (
+        <Coin key={coin.id} x={coin.x} />
       ))}
 
-      {/* Mobile Controls */}
       <Controls />
     </div>
   );
@@ -30,10 +36,14 @@ const Controls = memo(() => {
   const { movePlayer, jump } = useGameStore();
 
   const handleMove = (direction) => {
-    const step = 20;
+    const moveAmount = 10;
     const { playerX } = useGameStore.getState();
-    if (direction === "left") movePlayer(playerX - step);
-    else if (direction === "right") movePlayer(playerX + step);
+
+    if (direction === "left") {
+      movePlayer(playerX - moveAmount);
+    } else if (direction === "right") {
+      movePlayer(playerX + moveAmount);
+    }
   };
 
   return (

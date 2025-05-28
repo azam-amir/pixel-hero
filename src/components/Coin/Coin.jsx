@@ -1,23 +1,16 @@
-import { memo, useEffect } from "react";
-import { useGameStore } from "../../stores/useGameStore";
+import { memo } from "react";
 
-const Coin = ({ x }) => {
-  const { playerX, addScore } = useGameStore();
-
-  // Check collision with player
-  useEffect(() => {
-    const isColliding = Math.abs(playerX - x) < 20; // Rough collision check
-    if (isColliding) {
-      addScore(10);
-      // Remove coin logic here (update store)
-    }
-  }, [playerX, x]);
+const Coin = memo(({ x }) => {
   return (
     <div
-      className="absolute bottom-36 w-8 h-8 bg-yellow-300 border-2 border-black rounded-full"
-      style={{ left: `${x}px` }}
+      className="absolute bottom-[102px] w-9 h-9 bg-yellow-300 border-2 border-black rounded-full animate-bounce"
+      style={{
+        left: `${x}px`,
+        width: "36px",
+        height: "36px",
+      }}
     />
   );
-};
+});
 
-export default memo(Coin);
+export default Coin;

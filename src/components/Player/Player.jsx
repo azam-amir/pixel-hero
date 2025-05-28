@@ -3,7 +3,15 @@ import { memo, useEffect } from "react";
 import { useGameStore } from "../../stores/useGameStore";
 
 const Player = () => {
-  const { playerX, playerY, isJumping, movePlayer, jump } = useGameStore();
+  const {
+    playerX,
+    playerY,
+    isJumping,
+    playerWidth,
+    playerHeight,
+    movePlayer,
+    jump,
+  } = useGameStore();
 
   // Keyboard controls
   useEffect(() => {
@@ -24,10 +32,13 @@ const Player = () => {
         y: isJumping ? -100 : playerY,
       }}
       transition={{ type: "spring", damping: 10 }}
-      className="absolute bottom-24 w-12 h-12 bg-yellow-400 border-2 border-black rounded-md"
+      className="absolute bottom-24 bg-red-500 border-2 border-black rounded-md"
+      style={{
+        width: `${playerWidth}px`,
+        height: `${playerHeight}px`,
+      }}
     />
   );
 };
 
 export default memo(Player);
-//
